@@ -26,3 +26,7 @@ def downsampleAudio(inputFile, M):
         	M: downsampling factor (positive integer)
     """
     ## Your code here
+    import re
+    rate, audio = wavread(inputFile)
+    outputFile = re.match("(.*)\.wav", inputFile).group(1) + "_downsampled.wav"
+    wavwrite(audio[0::M], rate/float(M), outputFile)
