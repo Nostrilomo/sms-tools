@@ -22,3 +22,4 @@ def genMagSpec(x):
                              (length N)
     """
     ## Your code here
+    return(abs(np.fromfunction(lambda k, n: np.exp(-1j * 2 * np.pi * k * n / len(x)), (len(x), len(x)), dtype=float).dot(x)))

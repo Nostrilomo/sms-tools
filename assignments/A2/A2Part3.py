@@ -26,3 +26,4 @@ def DFT(x):
         X (numpy array) = The N point DFT of the input sequence x
     """
     ## Your code here
+    return(np.fromfunction(lambda k, n: np.exp(-1j * 2 * np.pi * k * n / len(x)), (len(x), len(x)), dtype=float).dot(x))
