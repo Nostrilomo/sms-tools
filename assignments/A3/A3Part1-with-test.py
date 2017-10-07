@@ -62,5 +62,31 @@ def minimizeEnergySpreadDFT(x, fs, f1, f2):
     """
     ## Your code here
     M = (fs/f1 * fs/f2)/gcd(fs/f1, fs/f2)
-    spec = 20 * np.log10(abs(fft(x[int(len(x)/2 - M/2):int(len(x)/2 + M/2)])[:int(M/2 + 1)]))
+    spec = 20 * np.log10(abs(fft(x[len(x)/2 - M/2:len(x)/2 + M/2])[:M/2 + 1]))
     return(spec)
+
+def test():
+
+    f1 = 80
+    f2 = 200
+    fs = 10000
+    x = np.cos(2 * np.pi * f1 * np.arange(0, 1, 1/float(fs))) + np.cos(2 * np.pi * f2 * np.arange(0, 1, 1/float(fs)))
+    spec = minimizeEnergySpreadDFT(x, fs, f1, f2)
+    print("(" + str(80) + "," + str(200) + "): " + str(fs) + " length: " + str(len(spec)))
+    for i in range(0, len(spec)):
+        if spec[i] > 0.01:
+            print("index: " + str(i) + " value: "),
+            print(spec[i])
+
+    fs = 48000
+    f1 = 300
+    f2 = 800
+    x = np.cos(2 * np.pi * f1 * np.arange(0, 1, 1/float(fs))) + np.cos(2 * np.pi * f2 * np.arange(0, 1, 1/float(fs)))
+    spec = minimizeEnergySpreadDFT(x, fs, f1, f2)
+    print("(" + str(80) + "," + str(200) + "): " + str(fs) + " length: " + str(len(spec)))
+    for i in range(0, len(spec)):
+        if spec[i] > 0.01:
+            print("index: " + str(i) + " value: "),
+            print(spec[i])
+
+test()
