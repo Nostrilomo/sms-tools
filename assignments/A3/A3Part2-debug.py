@@ -61,3 +61,11 @@ def optimalZeropad(x, fs, f):
     X = fft(y) 
     mX = 20 * np.log10(abs(X[:(len(y)/2) + 1]))
     return(mX)
+
+f = float(250)
+fs = float(10000)
+t = 1/fs * 210
+x = np.cos(2 * np.pi * f * np.arange(0, t, 1/fs))
+print(np.around(optimalZeropad(x, fs, f)))
+print(max(optimalZeropad(x, fs, f)))
+print(len(optimalZeropad(x, fs, f)))
