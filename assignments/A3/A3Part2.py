@@ -56,3 +56,5 @@ def optimalZeropad(x, fs, f):
                         x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
     """
     ## Your code here
+    N = np.ceil(len(x)/(fs/f)) * (fs/f)
+    y = np.zeros(N)
