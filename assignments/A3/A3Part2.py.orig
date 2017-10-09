@@ -1,4 +1,4 @@
-from scipy.fftpack import fft
+﻿from scipy.fftpack import fft
 import numpy as np
 
 """
@@ -56,8 +56,13 @@ def optimalZeropad(x, fs, f):
                         x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
     """
     ## Your code here
+<<<<<<< HEAD
+    N = np.ceil(len(x)/(fs/f)) * (fs/f)
+    y = np.zeros(N)
+=======
     y = np.zeros(int(np.ceil(len(x)/(fs/f))) * int(fs/f))
     y[:len(x)] = x
     X = fft(y) 
     mX = 20 * np.log10(abs(X[:(len(y)/2) + 1]))
     return(mX)
+>>>>>>> 62e6518e5e9431c89f89a1f1004b2c7e798d8933
