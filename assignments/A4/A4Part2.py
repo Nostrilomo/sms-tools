@@ -60,3 +60,9 @@ def computeSNR(inputFile, window, M, N, H):
             SNR1 and SNR2 are floats.
     """
     ## your code here
+    fs, x = UF.wavread(inputFile)
+    w = get_window(window, M)
+    y = stft.stft(x, w, N, H)
+    enoise = (x-y).dot(x-y)
+    esig = y.dot(y)
+    return(10 * np.log10(esig/enoise))
