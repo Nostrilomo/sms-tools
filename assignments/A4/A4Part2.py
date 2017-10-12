@@ -60,9 +60,24 @@ def computeSNR(inputFile, window, M, N, H):
             SNR1 and SNR2 are floats.
     """
     ## your code here
+    # For some reason, M odd messes things up a lot.
+    if M%2 == 1:
+        M = M-1
     fs, x = UF.wavread(inputFile)
     w = get_window(window, M)
     y = stft.stft(x, w, N, H)
-    enoise = (x-y).dot(x-y)
+
     esig = y.dot(y)
-    return(10 * np.log10(esig/enoise))
+    enoise = (x-y).dot(x-y)
+
+    snr = 10 * np.log10(esig/enoise)
+
+    yT = y[M:len(y)-M]
+    xT = x[M:len(x)-M]
+
+    esigT = yT.dot(yT)
+    enoiseT = (xT-yT).dot(xT-yT)
+
+    snrT = 10 * np.log10(esigT/enoiseT)
+
+    return(snr, snrT)
