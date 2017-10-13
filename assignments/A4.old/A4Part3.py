@@ -82,22 +82,4 @@ def computeEngEnv(inputFile, window, M, N, H):
     """
     
     ### your code here
-    w = get_window(window, M)
-    fs, x = UF.wavread(inputFile)
-    xmX, xpX = stft.stftAnal(x, w, N, H)
-    en = np.empty([len(xmX), 2])
-
-    # size verification
-    #print(len(xmX[0][0:int(np.floor(3000*N/fs))]))
-    #print(len(xmX[0][int(np.floor(3000*N/fs)):int(np.floor(10000*N/fs))]))
-
-    for i in range(len(xmX)):
-        #uns0 = 10**(xmX[i][0:int(np.floor(3000*N/fs))]/20)
-        uns0 = np.power(10, (xmX[i][0:int(np.floor(3000*N/fs))]/20))
-        #uns3k = 10**(xmX[i][int(np.floor(3000*N/fs)):int(np.floor(10000*N/fs))]/20)
-        uns3k = np.power(10, (xmX[i][int(np.floor(3000*N/fs)):int(np.floor(10000*N/fs))]/20))
-        en[i] = np.array([10*np.log10(uns0.dot(uns0)), 10*np.log10(uns3k.dot(uns3k))])
-
-    return(en)
-
-
+    
