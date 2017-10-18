@@ -82,23 +82,26 @@ def computeEngEnv(inputFile, window, M, N, H):
     """
     
     ### your code here
-    (fs, x) = UF.wavread(inputFile)
     w = get_window(window, M)
+    fs, x = UF.wavread(inputFile)
     xmX, xpX = stft.stftAnal(x, w, N, H)
-    engEnv = np.zeros((len(xmX),2)) #declaring numpy array
-    xmX = np.power(10, xmX/20)  #Convert from dB
-    for K in range(0, xmX.shape[0]):
-        for km in range(0, xmX.shape[1]):
-            if (km*fs/N > 0) & (km*fs/N < 3000):
-                engEnv[K,0] = engEnv[K,0] + xmX[K,km]**2
-            if (km*fs/N > 3000) & (km*fs/N < 10000):
-                engEnv[K,1] = engEnv[K,1] + xmX[K,km]**2
-            
-    engEnv[(engEnv<eps)] = eps    #this work only with numpy arrays
-    engEnv = 10 * np.log10(engEnv)
-    
-    #plt.plot(xmX[0,:]) 
-    #plt.tight_layout()
-    #plt.show()
+    en = np.empty([len(xmX), 2])
 
-    return engEnv
+    for k in range(len(xmX)):
+        xmX[k] = 10 ** (xmX[k]/20)
+
+    for k in range(len(xmX)):
+        lf = hf = 0
+        for kk in range(len(xmX[k])):
+            if kk * fs/N > 0 and kk * fs/N < 3000:
+                lf += xmX[k][kk] * xmX[k][kk]
+            if kk * fs/N > 3000 and kk * fs/N < 10000:
+                hf += xmX[k][kk] * xmX[k][kk]
+
+        lf = eps if lf < eps else lf 
+        hf = eps if hf < eps else hf 
+        en[k] = np.array([lf, hf])
+
+    en[:,0] = 10 * np.log10(en[:,0])
+    en[:,1] = 10 * np.log10(en[:,1])
+    return(en)
